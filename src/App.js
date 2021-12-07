@@ -1,6 +1,8 @@
 import { useState } from "react";
 import Header from "./components/Header";
 import Activities from "./components/Activities";
+import AddActivity from "./components/AddActivity";
+import { FaTimes } from "react-icons/fa";
 
 const App = () => {
 	const [activities, setActivities] = useState([
@@ -24,10 +26,49 @@ const App = () => {
 		},
 	]);
 
+	//Add activity
+
+	// const AddActivity = () => {
+	// 	console.log('merge');
+	// }
+
+	// const AddActivity = (activity) => {
+	// 	const id = Math.floor(Math.random() * 1000) + 1;
+	// 	const newActivity = { id, ...activity };
+	// 	setActivities([...activities, newActivity]);
+	// };
+
+	// Delete acitivity
+
+	const deleteActivity = (id) => {
+		setActivities(activities.filter((activity) => activity.id !== id));
+	};
+
+	// Toogle reminder
+
+	const toggleReminder = (id) => {
+		setActivities(
+			activities.map((activity) =>
+				activity.id === id
+					? { ...activity, reminder: !activity.reminder }
+					: activity
+			)
+		);
+	};
+
 	return (
 		<div className="container">
 			<Header />
-			<Activities activities={activities} />
+			<AddActivity onAdd={AddActivity} />
+			{activities.length > 0 ? (
+				<Activities
+					activities={activities}
+					onDelete={deleteActivity}
+					onToggle={toggleReminder}
+				/>
+			) : (
+				<p>No activities to show</p>
+			)}
 		</div>
 	);
 };
