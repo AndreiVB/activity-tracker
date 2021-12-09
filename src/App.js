@@ -5,6 +5,7 @@ import AddActivity from "./components/AddActivity";
 import { FaTimes } from "react-icons/fa";
 
 const App = () => {
+	const [showAddActivity, setShowAddActivity] = useState(false);
 	const [activities, setActivities] = useState([
 		{
 			id: 1,
@@ -32,11 +33,11 @@ const App = () => {
 	// 	console.log('merge');
 	// }
 
-	// const AddActivity = (activity) => {
-	// 	const id = Math.floor(Math.random() * 1000) + 1;
-	// 	const newActivity = { id, ...activity };
-	// 	setActivities([...activities, newActivity]);
-	// };
+	const addActivity = (activity) => {
+		const id = Math.floor(Math.random() * 1000) + 1;
+		const newActivity = { id, ...activity };
+		setActivities([...activities, newActivity]);
+	};
 
 	// Delete acitivity
 
@@ -58,8 +59,11 @@ const App = () => {
 
 	return (
 		<div className="container">
-			<Header />
-			<AddActivity onAdd={AddActivity} />
+			<Header
+				onAdd={() => setShowAddActivity(!showAddActivity)}
+				showAdd={showAddActivity}
+			/>
+			{showAddActivity && <AddActivity onAdd={addActivity} />}
 			{activities.length > 0 ? (
 				<Activities
 					activities={activities}
